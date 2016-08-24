@@ -19,6 +19,11 @@ bower_components
 
 ### Java ###
 *.class
+/.classpath
+/.project
+/.settings
+/.springBeans
+/src/main/resources/lib
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
