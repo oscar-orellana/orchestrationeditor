@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<configuration>
+
+	<appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>
+				%d{HH:mm:ss} %-5level %logger{36} - %msg%n
+			</Pattern>
+		</layout>
+	</appender>
+
+	<logger name="com.udc.fic.orchestrationeditor" level="info"></logger>
+	<logger name="org.springframework" level="info"></logger>
+	<logger name="org.hibernate" level="info"></logger>
+	<logger name="org.dozer" level="info"></logger>
+	<logger name="org.junit" level="info"></logger>
+
+	<root level="error">
+		<appender-ref ref="consoleAppender" />
+	</root>
+
+</configuration>

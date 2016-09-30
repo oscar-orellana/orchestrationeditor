@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html data-ng-app="orchestrationEditor">
+<head>
+	<meta charset="utf-8">
+	<title>Orchestration Editor</title>
+	<link href="/resources/lib/fontawesome/css/font-awesome.css" rel="stylesheet"/>
+	<link href="/resources/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet"/>
+	<link href="/resources/css/app.css" rel="stylesheet"/>
+	<script type="text/javascript" src="/resources/lib/jquery/dist/jquery.js"></script>
+	<script type="text/javascript" src="/resources/lib/bootstrap/dist/js/bootstrap.js"></script>
+	<script type="text/javascript" src="/resources/lib/angular/angular.js"></script>
+	<script type="text/javascript" src="/resources/lib/angular-resource/angular-resource.js"></script>
+	<script type="text/javascript" src="/resources/lib/angular-cookies/angular-cookies.js"></script>
+	<script type="text/javascript" src="/resources/js/app.js"></script>
+	<script type="text/javascript" src="/resources/js/services/UserService.js"></script>
+	<script type="text/javascript" src="/resources/js/controllers/UserController.js"></script>
+	<script type="text/javascript" src="/resources/js/services/AuthenticationService.js"></script>
+	<script type="text/javascript" src="/resources/js/controllers/AuthenticationController.js"></script>
+	<script type="text/javascript" src="/resources/js/directives/CleanableDirective.js"></script>
+</head>
+<body data-ng-cloak>
+<div class="container-fluid">
+	<div class="row"><!-- toolbar -->
+				<div class="col-md-2 toolbar dropdown">
+					<div class="btn btn-primary btn-toolbar" data-toggle="dropdown">
+						<span>
+							<i class="fa fa-opera"></i>
+							Orchestration Editor
+							<span class="caret"></span>
+						</span>
+					</div>
+					<ul class="dropdown-menu">
+				    <li><a href="#">New Template</a></li>
+				    <li><a href="#">Load Template</a></li>
+				    <li><a href="#">Save Template</a></li>
+				    <li><a href="#">Import Template</a></li>
+				    <li><a href="#">Export Template</a></li>
+				    <li class="divider"></li>
+				    <li><a href="#" data-toggle="modal" data-target="#manageUsersModal">Manage Users</a></li>
+				    <li class="divider"></li>
+				    <li><a href="#">About</a></li>
+				  </ul>
+				</div>
+			<div class="col-md-8 toolbar">
+				<div class="toolbar-display">
+					<span>Orchestration Editor</span>
+				</div>
+			</div>
+			<div class="col-md-2 toolbar dropdown" data-ng-controller="AuthenticationController">
+				<div class="btn btn-success btn-toolbar" data-toggle="modal" data-target="#loginModal" data-ng-show="!authenticated()">
+					<span>
+						<i class="fa fa-sign-in"></i>
+						Login
+					</span>
+				</div>
+				<div class="btn btn-success btn-toolbar" data-toggle="dropdown" data-ng-show="authenticated()">
+					<span>
+						<i class="fa fa-user"></i>
+						{{$root.globals.currentUser.username}}
+						<span class="caret"></span>
+					</span>
+				</div>
+					<ul class="dropdown-menu">
+				    <li><a href="#" data-toggle="modal" data-target="#userProfileModal">Edit Profile</a></li>
+				    <li><a href="#" data-toggle="modal" data-target="#changePasswordModal">Change Password</a></li>
+				    <li class="divider"></li>
+				    <li><a href="#" data-ng-click="logout()">Logout</a></li>
+				  </ul>
+			</div>
+	</div>
+	<div class="row"><!-- main -->
+		<div class="col-md-2 resources-sidebar">
+			<div class="sidebar-title">Resources</div>
+		</div>
+		<div class="col-md-8 editor-area">
+		</div>
+		<div class="col-md-2 properties-sidebar">
+			<div class="sidebar-title">Properties</div>
+		</div>
+	</div>
+</div><!-- /.container-fluid -->
+
+<!-- userProfileModal -->
+<div class="modal fade" id="userProfileModal" tabindex="-1" data-ng-controller="UserController">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+        <h4 class="modal-title">Profile - {{$root.globals.currentUser.username}}</h4>
+      </div>
+      <div class="modal-body">
+     		<form>
+				  <div class="form-group">
+				    <label for="firstNameInput">First Name</label>
+				    <input type="text" class="form-control" id="firstNameInput">
+				  </div>
+				  <div class="form-group">
+				    <label for="lastNameInput">Last Name</label>
+				    <input type="text" class="form-control" id="lastNameInput">
+				  </div>
+				  <div class="form-group">
+				    <label for="birthDateInput">Last Name</label>
+				    <input type="date" class="form-control" id="birthDateInput">
+				  </div>
+				   <div class="form-group">
+				    <label for="emailInput">Email</label>
+				    <input type="email" class="form-control" id="emailInput">
+				  </div>
+				   <div class="form-group">
+				    <label for="phoneNumberInput">Phone Number</label>
+				    <input type="tel" class="form-control" id="phoneNumberInput">
+				  </div>
+				   <button type="button" class="btn btn-primary btn-modal">Change</button>
+     		</form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- changePasswordModal -->
+<div class="modal fade" id="changePasswordModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+        <h4 class="modal-title">Change Password - username</h4>
+      </div>
+      <div class="modal-body">
+     		<form>
+     			<div class="form-group">
+				    <label for="oldPasswordInput">Old Password</label>
+				    <input type="password" class="form-control" id="oldPasswordInput">
+				  </div>
+				  <div class="form-group">
+				    <label for="passwordInput">New Password</label>
+				    <input type="password" class="form-control" id="passwordInput">
+				  </div>
+				  <div class="form-group">
+				    <label for="rePasswordInput">Repeat Password</label>
+				    <input type="password" class="form-control" id="rePasswordInput">
+				  </div>
+				  <button type="button" class="btn btn-primary btn-modal">Change</button>
+     		</form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- manageUsersModal -->
+<div class="modal fade" id="manageUsersModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+        <h4 class="modal-title">Manage Users</h4>
+      </div>
+      <div class="modal-body">
+      grid
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addUserModal">
+        	<i class="fa fa-user-plus" aria-hidden="true"></i>
+        	Add User
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- addUserModal -->
+<div class="modal fade" id="addUserModal" tabindex="-1">
+  <div class="modal-dialog	">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+        <h4 class="modal-title">Add User</h4>
+      </div>
+      <div class="modal-body">
+     		<form>
+     			<div class="form-group">
+				    <label for="usernameInput">Username</label>
+				    <input type="text" class="form-control" id="usernameInput">
+				  </div>
+				  <div class="form-group">
+				    <label for="roleInput">Role</label>
+				    <select class="form-control" id="roleInput">
+				    	<option value="ADMIN">Administrator</option>
+				    	<option value="USER">User</option>
+				    </select>
+				  </div>
+				  <div class="form-group">
+				    <label for="firstNameInput">First Name</label>
+				    <input type="text" class="form-control" id="firstNameInput">
+				  </div>
+				  <div class="form-group">
+				    <label for="lastNameInput">Last Name</label>
+				    <input type="text" class="form-control" id="lastNameInput">
+				  </div>
+				  <div class="form-group">
+				    <label for="birthDateInput">Last Name</label>
+				    <input type="date" class="form-control" id="birthDateInput">
+				  </div>
+				   <div class="form-group">
+				    <label for="emailInput">Email</label>
+				    <input type="email" class="form-control" id="emailInput">
+				  </div>
+				  <div class="form-group">
+				    <label for="phoneNumberInput">Phone Number</label>
+				    <input type="tel" class="form-control" id="phoneNumberInput">
+				  </div>
+				  <hr>
+				  <div class="form-group">
+				    <label for="passwordInput">Password</label>
+				    <input type="password" class="form-control" id="passwordInput">
+				  </div>
+				  <div class="form-group">
+				    <label for="rePasswordInput">Repeat Password</label>
+				    <input type="password" class="form-control" id="rePasswordInput">
+				  </div>
+				  <button type="button" class="btn btn-primary btn-modal">
+        	Add
+        </button>
+     		</form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- editUserModal -->
+<div class="modal fade" id="editUserModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+        <h4 class="modal-title">Edit - username</h4>
+      </div>
+      <div class="modal-body">
+     		<form>
+				  <div class="form-group">
+				    <label for="firstNameInput">First Name</label>
+				    <input type="text" class="form-control" id="firstNameInput">
+				  </div>
+				  <div class="form-group">
+				    <label for="lastNameInput">Last Name</label>
+				    <input type="text" class="form-control" id="lastNameInput">
+				  </div>
+				  <div class="form-group">
+				    <label for="birthDateInput">Last Name</label>
+				    <input type="date" class="form-control" id="birthDateInput">
+				  </div>
+				   <div class="form-group">
+				    <label for="emailInput">Email</label>
+				    <input type="email" class="form-control" id="emailInput">
+				  </div>
+				   <div class="form-group">
+				    <label for="phoneNumberInput">Phone Number</label>
+				    <input type="tel" class="form-control" id="phoneNumberInput">
+				  </div>
+				  <button type="button" class="btn btn-primary btn-modal">Save</button>
+     		</form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- adminChangePasswordModal -->
+<div class="modal fade" id="adminChangePasswordModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+        <h4 class="modal-title">Change Password - username</h4>
+      </div>
+      <div class="modal-body">
+     		<form>
+				  <div class="form-group">
+				    <label for="passwordInput">New Password</label>
+				    <input type="password" class="form-control" id="passwordInput">
+				  </div>
+				  <div class="form-group">
+				    <label for="rePasswordInput">Repeat Password</label>
+				    <input type="password" class="form-control" id="rePasswordInput">
+				  </div>
+				  <button type="button" class="btn btn-primary btn-modal">Save</button>
+     		</form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- loginModal -->
+<div class="modal fade" id="loginModal" tabindex="-1" data-ng-controller="AuthenticationController as auth" data-cleanable>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+        <h4 class="modal-title">Login</h4>
+      </div>
+      <div class="modal-body">
+     		<form data-ng-submit="auth.login()">
+				  <div class="form-group">
+				    <label for="usernameInput">Username</label>
+				    <input type="text" class="form-control" id="usernameInput" data-ng-model="auth.credentials.username" required>
+				  </div>
+				  <div class="form-group">
+				    <label for="passwordInput">Password</label>
+				    <input type="password" class="form-control" id="passwordInput" data-ng-model="auth.credentials.password" required>
+				  </div>
+				  <button data-ng-disabled="form.$invalid || auth.proccessingLogin" type="submit" class="btn btn-primary btn-modal" >
+				  	Login
+				  	<i data-ng-if="auth.proccessingLogin" class="fa fa-spinner fa-spin"></i>
+				  </button>
+     		</form>
+      </div>
+      <div class="modal-footer" data-ng-show="auth.loginError">
+				<div class="alert alert-danger">
+				  <strong>Error</strong>
+				</div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

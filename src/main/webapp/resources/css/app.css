@@ -1,0 +1,62 @@
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+
+.toolbar {
+	height: 3em;	
+	padding: 0px !important;
+}
+
+.btn-toolbar {
+	height: 100%;
+	width: 100%;
+	margin: 0px !important;
+	border-radius: 0 !important;
+	display: flex !important;
+	align-items : center;
+}
+
+.btn-toolbar > * {
+	margin: auto;
+	vertical-align: middle;
+	font-size: 16px;
+}
+
+.toolbar-display {
+	height: 100%;
+	width: 100%;
+	border: 1px solid #dddddd;
+	display: flex;
+	align-items : center;
+}
+
+.dropdown-menu {
+	width: 100%;
+}
+
+.toolbar-display > * {
+	margin: auto;
+	vertical-align: middle;
+	font-size: 18px;
+	color: grey;
+}
+
+.resources-sidebar {
+	height: 100%;	
+	border: 1px solid #dddddd;
+}
+
+.properties-sidebar {
+	height: 100%;	
+	border: 1px solid #dddddd;
+}
+
+.sidebar-title {
+	font-size: 16px;
+	text-align: center;
+	width: 100%;
+}
+
+.btn-modal {
+	width: 100%;
+}

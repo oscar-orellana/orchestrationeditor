@@ -1,0 +1,21 @@
+{
+  "name": "orchestrationeditor",
+  "version": "1.0.0",
+  "authors": [
+    "Oscar Fernandez Orellana"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+  	"bootstrap": "3.3.7",
+  	"fontawesome": "4.6.3",
+  	"angular": "1.5.8",
+  	"angular-resource": "1.5.8",
+  	"angular-cookies": "1.5.8"
+  }
+}
